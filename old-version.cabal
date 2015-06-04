@@ -1,12 +1,12 @@
 name:                old-version
-version:             1.0.0.0
+version:             1.0.1
 synopsis:            Basic versioning library.
 description:
   A general library for representation and manipulation of versions.
-
+  .
   This version of the module is forked from base, preserving the versionTags
   field of the Version type that will be removed in GHC 7.12
-  (cf. https://ghc.haskell.org/trac/ghc/ticket/2496). 
+  (cf. <https://ghc.haskell.org/trac/ghc/ticket/2496>).
 license:             OtherLicense
 license-file:        LICENSE
 author:              Chris Blake <chris@code.sc>
@@ -17,7 +17,7 @@ build-type:          Simple
 cabal-version:       >= 1.10
 source-repository head
   type: git
-  location: https://github.com/chrisdotcode/old-version
+  location: https://github.com/chrisdotcode/old-version.git
 
 library
   exposed-modules:     Data.Old.Version

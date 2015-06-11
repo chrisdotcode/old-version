@@ -28,17 +28,25 @@
 -- which will be appropriate for some applications, but not all.
 --
 -- This version of the module is forked from base, preserving the
--- 'versionTags' field of the 'Version' type that will be removed in
--- GHC 7.12 (cf. <https://ghc.haskell.org/trac/ghc/ticket/2496>).
-
+-- 'versionTags' field of the 'Version' type that will be removed in GHC 7.12
+-- (cf. <https://ghc.haskell.org/trac/ghc/ticket/2496>).
+--
 -- This version not only preserves 'versionTags', but also eliminates the
 -- showing and parsing functions in favor of sensible, hand-derived 'Show'
--- and 'Read' instances (such that `show (read version) == id version`).
+-- and 'Read' instances, such that:
+--
+-- @show (read version) == id version@
+--
+-- For compatibility with base, conversion functions to and from
+-- 'Data.Version.Version' are provided.
 -----------------------------------------------------------------------------
 
 module Data.Old.Version (
         -- * The @Version@ type
         Version(..)
+        -- * Conversions from/to 'Data.Version.Version'
+      , toBase
+      , fromBase
   ) where
 
 import Control.Monad                   ( Monad(..), liftM )
@@ -49,6 +57,7 @@ import Data.List
 import Data.Ord
 import Data.String                     ( String )
 import Data.Typeable                   ( Typeable )
+import qualified Data.Version as V     ( Version(..) )
 import GHC.Read
 import GHC.Show
 import Text.ParserCombinators.ReadP
@@ -120,3 +129,11 @@ instance Read Version where
                        tags   <- many (char '-' >> munch1 isAlphaNum)
                        return Version{versionBranch=branch, versionTags=tags}
                   )
+
+-- | Convert to a 'Data.Version.Version', stripping off the 'versionTags'.
+toBase :: Version -> V.Version
+toBase (Version branch' _) = V.Version branch' []
+
+-- | Convert from a 'Data.Version.Version', adding an empty set of 'versionTags'.
+fromBase :: V.Version -> Version
+fromBase (V.Version branch' _) = Version branch' []

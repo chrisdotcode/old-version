@@ -55,7 +55,7 @@ import Data.Eq
 import Data.Int                        ( Int )
 import Data.List
 import Data.Ord
-import Data.String                     ( String )
+import Data.String                     ( IsString(..), String )
 import Data.Typeable                   ( Typeable )
 import qualified Data.Version as V     ( Version(..) )
 import GHC.Read
@@ -129,6 +129,9 @@ instance Read Version where
                        tags   <- many (char '-' >> munch1 isAlphaNum)
                        return Version{versionBranch=branch, versionTags=tags}
                   )
+
+instance IsString Version where
+    fromString = read
 
 -- | Convert to a 'Data.Version.Version', stripping off the 'versionTags'.
 toBase :: Version -> V.Version

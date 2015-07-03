@@ -125,7 +125,7 @@ instance Show Version where
      concatMap ('-':) tags
 
 instance Read Version where
-  readPrec = lift ( do branch <- sepBy1 (liftM read (munch1 isDigit)) (char '.')
+  readPrec = lift ( do branch <- sepBy (liftM read (munch1 isDigit)) (char '.')
                        tags   <- many (char '-' >> munch1 isAlphaNum)
                        return Version{versionBranch=branch, versionTags=tags}
                   )

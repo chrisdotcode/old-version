@@ -119,11 +119,17 @@ instance Ord Version where
 -- | Provides one possible concrete representation for 'Version'.  For
 -- a version with 'versionBranch' @= [1,2,3]@ and 'versionTags'
 -- @= [\"tag1\",\"tag2\"]@, the output will be @1.2.3-tag1-tag2@.
---
 instance Show Version where
   show (Version branch tags) = concat (intersperse "." (map show branch)) ++
      concatMap ('-':) tags
 
+-- | Provides a corresponding 'Read' instance for 'Version'. Any optional
+-- amount of numerical branchs (delimited by @ .@), followed by any optional
+-- amount of versionTags (starting with a prefixing @ -@, then each delimited by
+-- @ -@). For example,
+-- @ (read "1.2.3" :: Version) == Version [1, 2, 3] []@ and
+-- @ (read "-alpha-beta-gamma :: Version) == Version [] ["alpha", "beta", "gamma"]@.
+-- 'Read'ing an empty string yields @ Version [] []@.
 instance Read Version where
   readPrec = lift ( do branch <- sepBy (liftM read (munch1 isDigit)) (char '.')
                        tags   <- many (char '-' >> munch1 isAlphaNum)

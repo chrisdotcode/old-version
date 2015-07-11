@@ -1,3 +1,7 @@
+1.4.2
+=====
+- Documents 'Read' instance parsing.
+
 1.3.1
 =====
 - Parses empty strings in 'Read' instance.

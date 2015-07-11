@@ -1,5 +1,5 @@
 name:                old-version
-version:             1.3.2
+version:             1.4.2
 synopsis:            Basic versioning library.
 description:
   A general library for representation and manipulation of versions.
@@ -29,6 +29,6 @@ library
     other-extensions:  AutoDeriveTypeable
   else
     other-extensions:  DeriveDataTypeable
-  build-depends:       base >= 4.6 && < 4.8
+  build-depends:       base >= 4.6 && <= 4.8.0.0
   default-language:    Haskell2010
   ghc-options:         -Wall
